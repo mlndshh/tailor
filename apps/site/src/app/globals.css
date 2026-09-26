@@ -1,8 +1,87 @@
 @import "tailwindcss";
-@theme { --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace; }
-.card { @apply rounded-xl border border-slate-800 bg-slate-900/40 p-5; }
-/* Tailwind v4 can't @apply a custom class, so each button spells out its utilities */
-.btn-primary { @apply inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium transition bg-amber-400 text-slate-950 hover:bg-amber-300; }
-.btn-ghost { @apply inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium transition border border-slate-700 hover:border-slate-500; }
-.eyebrow { @apply text-xs font-semibold uppercase tracking-widest text-amber-400; }
-.emph { @apply ring-2 ring-amber-400/80; }
+
+/* Made to measure: deep denim, a pattern-drafting grid, chalk text, tape-measure yellow, one thread-red seam. */
+@theme inline {
+  --font-sans: var(--nf-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--nf-display), Georgia, serif;
+  --font-mono: var(--nf-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@theme {
+  --color-denim: #0e1829;
+  --color-denim-2: #15223a;
+  --color-chalk: #eef0ea;
+  --color-muted: #a3aec2;
+  --color-tape: #f2c230;
+  --color-thread: #e86a55;
+  --color-stitch: rgb(238 240 234 / 0.22);
+}
+
+html {
+  color-scheme: dark;
+}
+body {
+  background-color: var(--color-denim);
+  color: var(--color-chalk);
+  font-family: var(--font-sans);
+  background-image:
+    linear-gradient(rgb(238 240 234 / 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(238 240 234 / 0.028) 1px, transparent 1px),
+    linear-gradient(rgb(238 240 234 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(238 240 234 / 0.05) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+}
+:focus-visible {
+  outline: 2px solid var(--color-tape);
+  outline-offset: 3px;
+}
+::selection {
+  background: var(--color-tape);
+  color: var(--color-denim);
+}
+
+/* Shared pieces, also used by the Docs, Use cases, Privacy, Vision and Contact pages */
+.card { @apply rounded-2xl bg-denim-2/80 p-6 ring-1 ring-white/5; }
+.btn-primary { @apply inline-flex items-center gap-2 rounded-full bg-tape px-5 py-2.5 text-sm font-semibold text-denim transition-colors hover:bg-[#f7d25c]; }
+.btn-ghost { @apply inline-flex items-center gap-2 rounded-full border border-dashed border-stitch px-5 py-2.5 text-sm font-medium text-chalk transition-colors hover:border-chalk/60; }
+.eyebrow { @apply text-sm font-medium text-tape; }
+.emph { @apply ring-2 ring-tape; }
+.section-title { @apply font-display text-4xl leading-[1.05] text-chalk sm:text-5xl; }
+.stitch-top { border-top: 1px dashed var(--color-stitch); }
+.text-link { @apply text-tape underline decoration-tape/40 underline-offset-4 hover:decoration-tape; }
+
+/* A small tag shown on a highlighted pricing plan (the plan itself is always visible) */
+.fit-tag { display: none; }
+[data-tailor-emphasis="on"] .fit-tag { display: inline-flex; }
+
+/* The fitting panel: one tape measure per audience, a red seam at Tailor's cut-off */
+.tape-track {
+  position: relative;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px dashed var(--color-stitch);
+  overflow: hidden;
+}
+.tape-fill {
+  height: 100%;
+  background:
+    repeating-linear-gradient(90deg, rgb(14 24 41 / 0.75) 0 2px, transparent 2px 40px),
+    repeating-linear-gradient(90deg, rgb(14 24 41 / 0.4) 0 1px, transparent 1px 8px),
+    var(--color-tape);
+  transition: width 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tape-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 2px dashed var(--color-thread);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tape-fill { transition: none; }
+}
+
+/* FAQ: a plus that turns when open */
+.faq summary { list-style: none; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; float: right; color: var(--color-tape); transition: transform 200ms; }
+.faq[open] summary::after { transform: rotate(45deg); }

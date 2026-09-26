@@ -12,22 +12,28 @@ const NAV: { href: string; label: string; audience: AudienceId }[] = [
 
 export function SiteHeader() {
   return (
-    <header data-tailor-section="Navigation" className="sticky top-0 z-40 border-b border-slate-800 bg-[#07090f]/90 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-6 gap-y-2 px-5 py-3">
-        <Link href="/" className="font-semibold tracking-tight text-white">◐ Tailor</Link>
-        <nav className="flex flex-wrap gap-4 text-sm">
+    <header data-tailor-section="Navigation" className="sticky top-0 z-40 border-b border-dashed border-stitch bg-denim/85 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-8 gap-y-2 px-5 py-4 sm:px-8">
+        <Link href="/" className="font-display text-3xl leading-none text-chalk">
+          Tailor
+        </Link>
+        <nav className="flex flex-wrap gap-5 text-sm">
           {NAV.map((n) => (
             <Emphasis key={n.href} audience={n.audience}>
               {(on) => (
-                <Link href={n.href} className="relative text-slate-300 hover:text-white">
+                <Link href={n.href} className={`relative transition-colors hover:text-chalk ${on ? "text-chalk" : "text-muted"}`}>
                   {n.label}
-                  {on ? <span title="Start here" className="absolute -right-2 -top-1 h-1.5 w-1.5 rounded-full bg-amber-400" /> : null}
+                  {on ? (
+                    <span title="Start here" className="absolute -right-2.5 -top-1 h-2 w-2 rounded-full bg-thread ring-2 ring-denim">
+                      <span className="sr-only">Start here</span>
+                    </span>
+                  ) : null}
                 </Link>
               )}
             </Emphasis>
           ))}
         </nav>
-        <AudienceSwitcher className="ml-auto text-slate-400" />
+        <AudienceSwitcher className="ml-auto text-muted" />
       </div>
     </header>
   );
