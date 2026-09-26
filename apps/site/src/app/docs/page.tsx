@@ -21,7 +21,8 @@ export default function Docs() {
       <h1 className="mt-2 text-4xl font-semibold text-white">Tailor for React</h1>
       <Section id="install" title="Install" audience="developer" className="py-8">
         <h2 className="text-xl text-white">Install</h2>
-        <div className="mt-3"><CodeBlock code="npm install @tailor/react" signal="copied the install command" /></div>
+        <p className="mt-2 text-slate-400">The SDK isn’t on npm yet: <code>@tailor/react</code> and <code>@tailor/core</code> ship as workspace packages in the repo.</p>
+        <div className="mt-3"><CodeBlock code={"git clone https://github.com/mlndshh/tailor && cd tailor\npnpm install && pnpm dev"} signal="copied the install command" /></div>
       </Section>
       <Section id="provider" title="Provider" audience="developer" className="py-8">
         <h2 className="text-xl text-white">Add the provider</h2>
