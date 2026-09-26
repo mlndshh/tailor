@@ -1,0 +1,18 @@
+{
+  "name": "tailor",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "pnpm --filter site dev",
+    "build": "pnpm --filter site build",
+    "jev:check": "tsx --env-file=.env scripts/jev-check.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "tsx": "^4",
+    "typescript": "^5.9",
+    "vitest": "^5"
+  }
+}
