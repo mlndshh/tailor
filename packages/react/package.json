@@ -1,0 +1,7 @@
+{
+  "name": "@tailor/react", "version": "0.1.0", "private": true, "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": { "@tailor/core": "workspace:*" },
+  "peerDependencies": { "react": ">=19" },
+  "devDependencies": { "@types/react": "^19", "react": "^19" }
+}
