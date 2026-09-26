@@ -3,9 +3,9 @@ import QRCode from "qrcode";
 
 const LINKS = [
   { id: "L0", path: "/", simulates: "Typed the URL (no referrer)", expect: "Default page; arrival skipped" },
-  { id: "L1", path: "/?utm_source=hackernews", simulates: "Hacker News post", expect: "Developer" },
-  { id: "L2", path: "/?utm_source=github&utm_campaign=readme", simulates: "GitHub README link", expect: "Developer" },
-  { id: "L3", path: "/?utm_source=linkedin&utm_campaign=website-conversion", simulates: "LinkedIn ad", expect: "Growth lead" },
+  { id: "L1", path: "/?utm_source=hackernews", simulates: "Hacker News post", expect: "Default until the first click, then Developer" },
+  { id: "L2", path: "/?utm_source=github&utm_campaign=readme", simulates: "GitHub README link", expect: "Default until the first click, then Developer" },
+  { id: "L3", path: "/?utm_source=linkedin&utm_campaign=website-conversion", simulates: "LinkedIn ad", expect: "Default until the first click, then Growth lead" },
   { id: "L4", path: "/?utm_source=google&utm_term=website+personalization+gdpr+cookies", simulates: "Google search", expect: "Privacy reviewer" },
   { id: "L5", path: "/?utm_source=vc-newsletter&utm_campaign=seed-deals", simulates: "VC newsletter", expect: "Investor" },
   { id: "L6", path: "/docs?utm_source=vc-newsletter", simulates: "Investor who lands on the docs", expect: "Investor, then developer too" },
