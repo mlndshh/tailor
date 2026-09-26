@@ -63,8 +63,12 @@ export function startSession(forceNew = false): { session: TailorSession; isNew:
     if (wantsLens) existing.lens = true;
     return { session: existing, isNew: false };
   }
+  const newId =
+    typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : Math.random().toString(36).slice(2) + Date.now().toString(36);
   const session: TailorSession = {
-    id: crypto.randomUUID(), arrival: captureArrival(), events: [], decision: null, pinned: null, lens: wantsLens,
+    id: newId, arrival: captureArrival(), events: [], decision: null, pinned: null, lens: wantsLens,
   };
   if (wantsNew) writeDecisionCookie(null);
   saveSession(session);

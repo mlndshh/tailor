@@ -62,7 +62,7 @@ export default function Home() {
               ["Investor", "Why now, the roadmap and the team first."],
             ].map(([t, b]) => <div key={t} className="card"><h3 className="font-medium text-white">{t}</h3><p className="mt-2 text-sm text-slate-400">{b}</p></div>)}
           </div>
-          <p className="mt-4 text-sm text-slate-500">We're in beta and haven't published lift numbers yet. Built-in holdout measurement is next on the roadmap.</p>
+          <p className="mt-4 text-sm text-slate-500">We’re in beta and haven’t published lift numbers yet. Built-in holdout measurement is next on the roadmap.</p>
           <Link href="/use-cases" className="mt-4 inline-block text-amber-400">See use cases →</Link>
         </Section>
         <Section id="quickstart" title="Quickstart" audience="developer" className="py-12">
@@ -98,7 +98,7 @@ export default function Home() {
         </Section>
         <Section id="vision" title="Why now" audience="investor" className="py-12">
           <h2 className="text-2xl font-semibold text-white">Why now</h2>
-          <p className="mt-4 max-w-3xl text-slate-400">Per-click decisions were possible with LLMs but too slow and expensive: TypeSafe's published benchmark shows an LLM workflow at 8.566 s and $0.013880 against Jev at 0.114 s and $0.000081. System One models make adapting every page to every visitor practical.</p>
+          <p className="mt-4 max-w-3xl text-slate-400">Per-click decisions were possible with LLMs but too slow and expensive: TypeSafe’s published benchmark shows an LLM workflow at 8.566 s and $0.013880 against Jev at 0.114 s and $0.000081. System One models make adapting every page to every visitor practical.</p>
           <Link href="/vision" className="mt-4 inline-block text-amber-400">Read the vision →</Link>
         </Section>
         <Section id="faq" title="FAQ" className="py-12">
@@ -106,7 +106,7 @@ export default function Home() {
           <SlotGroup name="faq">
             <Section id="faq-hide" title="FAQ: Does Tailor hide content?"><details className="card mt-3"><summary className="cursor-pointer text-white">Does Tailor hide content?</summary><p className="mt-2 text-sm text-slate-400">No. It reorders sections, swaps headlines and buttons, and highlights. Every page and section stays reachable, and the switcher lets anyone pick a view.</p></details></Section>
             <Section id="faq-fast" title="FAQ: How fast is a decision?" audience="developer"><details className="card mt-3"><summary className="cursor-pointer text-white">How fast is a decision?</summary><p className="mt-2 text-sm text-slate-400">Under a second from our server to Jev and back, shown live in the Lens. Changes are applied off-screen, so nothing jumps.</p></details></Section>
-            <Section id="faq-data" title="FAQ: What data do you store?" audience="privacy_reviewer"><details className="card mt-3"><summary className="cursor-pointer text-white">What data do you store?</summary><p className="mt-2 text-sm text-slate-400">This session's clicks and reading time, in your browser's session storage, plus one first-party cookie holding the current view. Our server keeps nothing between requests.</p></details></Section>
+            <Section id="faq-data" title="FAQ: What data do you store?" audience="privacy_reviewer"><details className="card mt-3"><summary className="cursor-pointer text-white">What data do you store?</summary><p className="mt-2 text-sm text-slate-400">This session’s clicks and reading time, in your browser’s session storage, plus one first-party cookie holding the current view. Our server keeps nothing between requests.</p></details></Section>
             <Section id="faq-works" title="FAQ: How do I know it works?" audience="growth_lead"><details className="card mt-3"><summary className="cursor-pointer text-white">How do I know it works?</summary><p className="mt-2 text-sm text-slate-400">Today: simulated visitors and the Lens. Next: a built-in holdout group that measures lift for each audience.</p></details></Section>
             <Section id="faq-now" title="FAQ: Why is this possible now?" audience="investor"><details className="card mt-3"><summary className="cursor-pointer text-white">Why is this possible now?</summary><p className="mt-2 text-sm text-slate-400">System One models like Jev return calibrated decisions in milliseconds for fractions of a cent, so deciding on every click finally pays for itself.</p></details></Section>
           </SlotGroup>

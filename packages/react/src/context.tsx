@@ -60,19 +60,25 @@ export function TailorProvider(props: {
   const lastPath = useRef<string | null>(null);
 
   useEffect(() => {
-    const client = new TailorClient({ siteKey, endpoint });
-    clientRef.current = client;
-    const off = client.subscribe(rerender);
-    setMounted(true);
-    const onClick = (e: MouseEvent) => {
-      const t = clickTarget(e);
-      if (t) client.record({ kind: "click", label: t.label, section: t.section, at: Date.now() });
-    };
-    document.addEventListener("click", onClick, true);
-    return () => {
-      off();
-      document.removeEventListener("click", onClick, true);
-    };
+    try {
+      const client = new TailorClient({ siteKey, endpoint });
+      clientRef.current = client;
+      const off = client.subscribe(rerender);
+      setMounted(true);
+      const onClick = (e: MouseEvent) => {
+        const t = clickTarget(e);
+        if (t) client.record({ kind: "click", label: t.label, section: t.section, at: Date.now() });
+      };
+      document.addEventListener("click", onClick, true);
+      return () => {
+        off();
+        document.removeEventListener("click", onClick, true);
+      };
+    } catch (error) {
+      // Never let the SDK's bootstrap take down the host page; fall back to the server-rendered decision.
+      console.warn("[tailor] failed to start, showing the default/initial decision", error);
+      return undefined;
+    }
   }, [siteKey, endpoint]);
 
   // Page views after the landing page (the landing page is part of arrival, not an action).

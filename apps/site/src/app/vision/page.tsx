@@ -9,7 +9,7 @@ export default function Vision() {
       <h1 className="mt-2 text-4xl font-semibold text-white">Every interface should adapt to the person using it.</h1>
       <Section id="why-now" title="Why now" audience="investor" className="py-8">
         <h2 className="text-xl text-white">Why now</h2>
-        <p className="mt-2 text-slate-400">Deciding on every click was possible with LLMs but uneconomic: TypeSafe's published benchmark puts an LLM workflow at 8.566 s and $0.013880 against Jev at 0.114 s and $0.000081. Calibrated System One models also say when they aren't sure, which is what makes it safe to change a live page.</p>
+        <p className="mt-2 text-slate-400">Deciding on every click was possible with LLMs but uneconomic: TypeSafe’s published benchmark puts an LLM workflow at 8.566 s and $0.013880 against Jev at 0.114 s and $0.000081. Calibrated System One models also say when they aren’t sure, which is what makes it safe to change a live page.</p>
       </Section>
       <Section id="market" title="Market" audience="investor" className="py-8">
         <h2 className="text-xl text-white">Market</h2>
