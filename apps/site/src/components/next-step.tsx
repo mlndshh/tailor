@@ -3,9 +3,14 @@ import { Slot, Variant } from "@tailor/react";
 import Link from "next/link";
 
 const Step = ({ href, text }: { href: string; text: string }) => (
-  <Link href={href} className="card mt-16 block hover:border-slate-600">
-    <span className="eyebrow">Next step</span>
-    <span className="mt-1 block text-lg text-white">{text} →</span>
+  <Link href={href} className="group mt-20 flex items-center justify-between gap-6 rounded-2xl border border-dashed border-stitch p-6 transition-colors hover:border-tape">
+    <span>
+      <span className="block text-sm text-muted">Next step for you</span>
+      <span className="mt-1 block font-display text-3xl text-chalk">{text}</span>
+    </span>
+    <span aria-hidden className="text-2xl text-tape transition-transform group-hover:translate-x-1">
+      ›
+    </span>
   </Link>
 );
 

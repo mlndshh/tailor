@@ -5,11 +5,11 @@ import { useState } from "react";
 export function CodeBlock({ code, signal }: { code: string; signal: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <div className="relative rounded-lg border border-slate-800 bg-black/60">
-      <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-slate-200"><code>{code}</code></pre>
+    <div className="relative rounded-xl bg-[#09111f] ring-1 ring-white/10">
+      <pre className="overflow-x-auto p-5 pr-20 font-mono text-[13px] leading-relaxed text-chalk"><code>{code}</code></pre>
       <Signal label={signal}>
         <button
-          className="absolute right-2 top-2 rounded border border-slate-700 px-2 py-0.5 text-xs text-slate-300 hover:border-slate-500"
+          className="absolute right-3 top-3 rounded-full border border-dashed border-stitch px-3 py-1 text-xs text-muted transition-colors hover:border-tape hover:text-tape"
           onClick={() => {
             void navigator.clipboard?.writeText(code);
             setCopied(true);
