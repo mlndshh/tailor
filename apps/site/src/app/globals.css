@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@theme { --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.card { @apply rounded-xl border border-slate-800 bg-slate-900/40 p-5; }
+/* Tailwind v4 can't @apply a custom class, so each button spells out its utilities */
+.btn-primary { @apply inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium transition bg-amber-400 text-slate-950 hover:bg-amber-300; }
+.btn-ghost { @apply inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium transition border border-slate-700 hover:border-slate-500; }
+.eyebrow { @apply text-xs font-semibold uppercase tracking-widest text-amber-400; }
+.emph { @apply ring-2 ring-amber-400/80; }
