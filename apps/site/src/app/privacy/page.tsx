@@ -7,7 +7,7 @@ const ITEMS = [
   ["What we don't collect", "No names, emails, IP-based identity, device fingerprints or cross-site tracking. We never infer protected traits such as age, gender, ethnicity or health."],
   ["Cookies", "One first-party cookie, tailor_decision, holding the current view (for example 'developer') so the next page renders without flicker. It's a session cookie: it ends when you close the browser."],
   ["Data retention", "Your session lives in your browser's session storage. Our server is stateless: it reads the session with each request and keeps nothing afterwards, apart from a cache of anonymous arrival reads keyed by campaign tags."],
-  ["Subprocessors", "Vercel hosts the site and routes model calls through Vercel AI Gateway. TypeSafe runs Jev, which receives the anonymous actions list and arrival tags."],
+  ["Subprocessors", "Vercel hosts the site. TypeSafe runs Jev, which our server calls directly and which receives the anonymous actions list and arrival tags."],
   ["Your controls", "The 'Showing' switcher in the header lets you pick any view or go back to Auto. The Lens shows every decision and has a reset."],
 ];
 
