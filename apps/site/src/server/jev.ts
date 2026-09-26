@@ -1,7 +1,13 @@
-// Server-only: calls Jev directly through the TypeSafe API when TYPESAFE_OWN_API_KEY is set
-// (the SDK's default baseURL, https://api.typesafe.ai), falling back to Vercel AI Gateway
-// (AI_GATEWAY_API_KEY) when there's no direct key or the direct key is rejected (401/402/403,
-// e.g. an account with no credits). The keys must never reach the browser.
+// Server-only Jev client. The keys must never reach the browser.
+//
+// Provider order (and why):
+//   1. Vercel AI Gateway (AI_GATEWAY_API_KEY, model "typesafe-ai/jev"): primary. This is the path we
+//      verified and tuned the decision thresholds against, and it's what runs in production.
+//   2. TypeSafe API directly (TYPESAFE_OWN_API_KEY, pinned "jev-1.13.0"): fallback. During the hackathon
+//      our direct TypeSafe account returned 402 ("no available API credits"), so it's only used when the
+//      Gateway key is missing or rejected.
+// When a provider rejects its key (401/402/403) we log once and switch to the other provider for the rest
+// of this server instance's life. Any other error (timeout, 5xx) is thrown so decide() keeps the page as is.
 import "server-only";
 import { APIError, TypeSafeClient, type EntryType } from "@typesafe-ai/sdk";
 import type { JevAsk } from "@tailor/core";
@@ -9,53 +15,65 @@ import type { JevAsk } from "@tailor/core";
 const TIMEOUT_MS = 1_500;
 const REJECTED_KEY_STATUSES = new Set([401, 402, 403]);
 
-let direct: TypeSafeClient | null = null;
-let gateway: TypeSafeClient | null = null;
-/** Set once the direct key is rejected, so later calls go straight to the Gateway on this instance. */
-let directRejected = false;
-
-function directClient(): TypeSafeClient | null {
-  const apiKey = process.env.TYPESAFE_OWN_API_KEY;
-  if (!apiKey || directRejected) return null;
-  direct ??= new TypeSafeClient({
-    apiKey,
-    // Pinned, not "jev-latest": thresholds were tuned against this version.
-    defaultModel: "jev-1.13.0",
-    timeout: TIMEOUT_MS,
-    retry: { maxRetries: 1 },
-  });
-  return direct;
+interface Provider {
+  name: string;
+  client: TypeSafeClient;
 }
 
-function gatewayClient(): TypeSafeClient | null {
-  const apiKey = process.env.AI_GATEWAY_API_KEY;
-  if (!apiKey) return null;
-  gateway ??= new TypeSafeClient({
-    apiKey,
-    baseURL: "https://ai-gateway.vercel.sh/typesafe",
-    defaultModel: "typesafe-ai/jev",
-    timeout: TIMEOUT_MS,
-    retry: { maxRetries: 1 },
-  });
-  return gateway;
+let providers: Provider[] | null = null;
+/** Providers whose key was rejected on this instance; skipped from then on. */
+const rejected = new Set<string>();
+
+function getProviders(): Provider[] {
+  if (providers) return providers;
+  const list: Provider[] = [];
+  const gatewayKey = process.env.AI_GATEWAY_API_KEY;
+  if (gatewayKey) {
+    list.push({
+      name: "Vercel AI Gateway",
+      client: new TypeSafeClient({
+        apiKey: gatewayKey,
+        baseURL: "https://ai-gateway.vercel.sh/typesafe",
+        defaultModel: "typesafe-ai/jev",
+        timeout: TIMEOUT_MS,
+        retry: { maxRetries: 1 },
+      }),
+    });
+  }
+  const directKey = process.env.TYPESAFE_OWN_API_KEY;
+  if (directKey) {
+    list.push({
+      name: "TypeSafe direct",
+      client: new TypeSafeClient({
+        apiKey: directKey,
+        // Pinned, not "jev-latest", so answers match what the thresholds were tuned against.
+        defaultModel: "jev-1.13.0",
+        timeout: TIMEOUT_MS,
+        retry: { maxRetries: 1 },
+      }),
+    });
+  }
+  providers = list;
+  return list;
 }
 
 type AskResult = Awaited<ReturnType<JevAsk>>;
 
 export const jevAsk: JevAsk = async (req) => {
   const body = { state: req.state as EntryType, questions: req.questions };
-  const primary = directClient();
-  if (primary) {
+  const usable = getProviders().filter((p) => !rejected.has(p.name));
+  if (usable.length === 0) throw new Error("No usable Jev API key: set AI_GATEWAY_API_KEY (or TYPESAFE_OWN_API_KEY)");
+
+  for (const [i, provider] of usable.entries()) {
     try {
-      return (await primary.systemOne(body)) as unknown as AskResult;
+      return (await provider.client.systemOne(body)) as unknown as AskResult;
     } catch (error) {
-      const rejected = error instanceof APIError && REJECTED_KEY_STATUSES.has(error.status);
-      if (!rejected || !gatewayClient()) throw error;
-      directRejected = true;
-      console.warn(`[jev] TypeSafe direct key rejected (${error.status}); using Vercel AI Gateway`);
+      const keyRejected = error instanceof APIError && REJECTED_KEY_STATUSES.has(error.status);
+      const hasNext = i < usable.length - 1;
+      if (!keyRejected || !hasNext) throw error;
+      rejected.add(provider.name);
+      console.warn(`[jev] ${provider.name} rejected its key (${error.status}); falling back to ${usable[i + 1]?.name}`);
     }
   }
-  const fallback = gatewayClient();
-  if (!fallback) throw new Error("No Jev API key: set TYPESAFE_OWN_API_KEY (or AI_GATEWAY_API_KEY)");
-  return (await fallback.systemOne(body)) as unknown as AskResult;
+  throw new Error("unreachable");
 };

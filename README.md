@@ -119,8 +119,8 @@ Put these in a root `.env` (gitignored):
 
 | Variable | |
 | --- | --- |
-| `TYPESAFE_OWN_API_KEY` | Preferred: calls the TypeSafe API directly |
-| `AI_GATEWAY_API_KEY` | Fallback: calls Jev through Vercel AI Gateway |
+| `AI_GATEWAY_API_KEY` | Primary: calls Jev through Vercel AI Gateway (the path the thresholds were tuned against) |
+| `TYPESAFE_OWN_API_KEY` | Fallback: calls the TypeSafe API directly (pinned `jev-1.13.0`), used if the Gateway key is missing or rejected |
 | `TAILOR_ALERT_WEBHOOK_URL` | Optional: receives `{ text }` when a visitor wants to talk (it's always logged on the server) |
 
 ## What's next
