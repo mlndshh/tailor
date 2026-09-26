@@ -21,7 +21,7 @@ function Bars({ title, scores }: { title: string; scores: AudienceScores | null 
             <span style={{ width: 64 }}>{labels[a]}</span>
             <span style={{ flex: 1, height: 8, background: "#1e293b", borderRadius: 4, position: "relative" }}>
               <span style={{ position: "absolute", inset: 0, width: `${Math.round(scores[a] * 100)}%`, background: colors[a], borderRadius: 4 }} />
-              <span style={{ position: "absolute", left: "60%", top: -2, bottom: -2, borderLeft: "1px dashed #94a3b8" }} />
+              <span style={{ position: "absolute", left: "50%", top: -2, bottom: -2, borderLeft: "1px dashed #94a3b8" }} />
             </span>
             <span style={{ width: 34, textAlign: "right" }}>{scores[a].toFixed(2)}</span>
           </div>
@@ -63,7 +63,7 @@ export function TailorLens() {
       </div>
       <Bars title={`Arrival ${last?.debug.arrivalCached ? "(cached)" : ""}: ${last?.debug.arrivalState ? JSON.stringify(last.debug.arrivalState) : "none"}`} scores={last?.debug.arrivalScores ?? null} />
       <Bars title="Actions" scores={last?.debug.actionScores ?? null} />
-      <Bars title={`Combined (behaviour weight ${last?.debug.weight ?? 0}; cut-off 0.6)`} scores={decision?.p ?? null} />
+      <Bars title={`Combined (behaviour weight ${last?.debug.weight ?? 0}; cut-off 0.5)`} scores={decision?.p ?? null} />
       <div style={{ marginBottom: 10 }}>
         Last decision: {last ? `${last.debug.latencyMs} ms · ${last.debug.tokens} tokens · $${last.debug.costUsd.toFixed(6)}` : "none yet"}
         {last?.debug.error ? <div style={{ color: "#f87171" }}>Jev error, kept page: {last.debug.error}</div> : null}

@@ -26,22 +26,22 @@ describe("blend", () => {
 });
 
 describe("chooseActive", () => {
-  it("returns the default page when nothing clears 0.6", () => {
-    expect(chooseActive(s({ developer: 0.59 }), null)).toEqual({ primary: null, active: [] });
+  it("returns the default page when nothing clears 0.5", () => {
+    expect(chooseActive(s({ developer: 0.49 }), null)).toEqual({ primary: null, active: [] });
   });
   it("allows several active audiences, most likely first", () => {
     expect(chooseActive(s({ developer: 0.7, investor: 0.9 }), null)).toEqual({ primary: "investor", active: ["investor", "developer"] });
   });
-  it("keeps the previous primary while it stays above 0.5 and no challenger leads by 0.1", () => {
-    expect(chooseActive(s({ developer: 0.55, privacy_reviewer: 0.62 }), "developer")).toEqual({
+  it("keeps the previous primary while it stays above 0.4 and no challenger leads by 0.1", () => {
+    expect(chooseActive(s({ developer: 0.45, privacy_reviewer: 0.54 }), "developer")).toEqual({
       primary: "developer", active: ["developer", "privacy_reviewer"],
     });
   });
   it("switches when a challenger leads by at least 0.1", () => {
-    expect(chooseActive(s({ developer: 0.6, privacy_reviewer: 0.75 }), "developer").primary).toBe("privacy_reviewer");
+    expect(chooseActive(s({ developer: 0.5, privacy_reviewer: 0.65 }), "developer").primary).toBe("privacy_reviewer");
   });
-  it("drops the previous primary below 0.5", () => {
-    expect(chooseActive(s({ developer: 0.4 }), "developer")).toEqual({ primary: null, active: [] });
+  it("drops the previous primary below the keep threshold", () => {
+    expect(chooseActive(s({ developer: 0.35 }), "developer")).toEqual({ primary: null, active: [] });
   });
   it("does not oscillate over a sequence of close readings", () => {
     const readings = [s({ developer: 0.7, investor: 0.65 }), s({ developer: 0.66, investor: 0.7 }), s({ developer: 0.68, investor: 0.72 })];

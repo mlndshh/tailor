@@ -1,7 +1,7 @@
 import { AUDIENCES, type AudienceId, type AudienceScores, type Decision } from "./types";
 
-export const ACTIVE_THRESHOLD = 0.6;
-export const KEEP_THRESHOLD = 0.5;
+export const ACTIVE_THRESHOLD = 0.5;
+export const KEEP_THRESHOLD = 0.4;
 export const SWITCH_MARGIN = 0.1;
 export const ACTION_WEIGHTS = [0, 0.5, 0.7, 0.85] as const;
 
