@@ -8,3 +8,7 @@ Built at JEVATHON (2026-09-26). Working name.
 
 - Design spec: [docs/superpowers/specs/2026-09-26-tailor-design.md](docs/superpowers/specs/2026-09-26-tailor-design.md)
 - Hackathon info, rubric and rules: [docs/hackathon/](docs/hackathon/)
+
+## License
+
+[MIT](LICENSE)
