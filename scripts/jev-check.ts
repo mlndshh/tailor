@@ -2,17 +2,19 @@
 import { TypeSafeClient } from "@typesafe-ai/sdk";
 import { actionsRequest, arrivalRequest, type NormalizedArrival } from "@tailor/core";
 
-// Same provider preference as apps/site/src/server/jev.ts: direct TypeSafe API first, Gateway as fallback.
-const ownKey = process.env.TYPESAFE_OWN_API_KEY;
+// Same provider order as apps/site/src/server/jev.ts: Vercel AI Gateway first (the verified path the
+// thresholds were tuned against), TypeSafe direct as fallback (our direct account returned 402, no credits,
+// during the hackathon).
 const gatewayKey = process.env.AI_GATEWAY_API_KEY;
-const client = ownKey
-  ? new TypeSafeClient({ apiKey: ownKey, defaultModel: "jev-1.13.0" })
-  : gatewayKey
-    ? new TypeSafeClient({ apiKey: gatewayKey, baseURL: "https://ai-gateway.vercel.sh/typesafe", defaultModel: "typesafe-ai/jev" })
+const ownKey = process.env.TYPESAFE_OWN_API_KEY;
+const client = gatewayKey
+  ? new TypeSafeClient({ apiKey: gatewayKey, baseURL: "https://ai-gateway.vercel.sh/typesafe", defaultModel: "typesafe-ai/jev" })
+  : ownKey
+    ? new TypeSafeClient({ apiKey: ownKey, defaultModel: "jev-1.13.0" })
     : (() => {
-        throw new Error("No Jev API key: set TYPESAFE_OWN_API_KEY (or AI_GATEWAY_API_KEY)");
+        throw new Error("No Jev API key: set AI_GATEWAY_API_KEY (or TYPESAFE_OWN_API_KEY)");
       })();
-console.log(`Provider: ${ownKey ? "TypeSafe direct" : "Vercel AI Gateway"}`);
+console.log(`Provider: ${gatewayKey ? "Vercel AI Gateway" : "TypeSafe direct"}`);
 
 const arrivals: NormalizedArrival[] = [
   { source: "hackernews", campaign: null, search_terms: null, landing_page: "/" },
