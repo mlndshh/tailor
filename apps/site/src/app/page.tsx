@@ -13,7 +13,9 @@ const Hero = ({ eyebrow, title, body, cta, href }: { eyebrow: string; title: str
 );
 const Second = ({ href, text }: { href: string; text: string }) => <Link href={href} className="btn-ghost">{text}</Link>;
 
-const INSTALL = "npm install @tailor/react";
+const INSTALL = `# @tailor/react ships in the repo for now (npm package coming soon)
+git clone https://github.com/mlndshh/tailor && cd tailor
+pnpm install && pnpm dev`;
 const USAGE = `<TailorProvider siteKey="site_…" endpoint="/api/tailor/v1/decide" initial={initial}>
   <Slot name="hero">
     <Variant default><Hero /></Variant>
